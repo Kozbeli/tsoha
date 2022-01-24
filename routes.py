@@ -1,6 +1,8 @@
 from app import app
 from flask import render_template, request, redirect
-import messages, users, visits
+import messages
+import users
+import visits
 
 
 @app.route("/")
@@ -10,15 +12,6 @@ def index():
     messageList = messages.get_list()
     print("counter is now", counter)
     return render_template("index.html", counter=counter, count=len(messageList), messages=messageList)
-
-
-@app.route("/send", methods=["POST"])
-def send():
-    content = request.form["content"]
-    if messages.send(content):
-        return redirect("/")
-    else:
-        return render_template("error.html", message="Failed to send message")
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -34,7 +27,7 @@ def login():
             return render_template("error.html", message="Invalid username or password")
 
 
-@app.route("/logout")            
+@app.route("/logout")
 def logout():
     users.logout()
     return redirect("/")
@@ -57,3 +50,17 @@ def register():
             return redirect("/")
         else:
             return render_template("error.html", message="Registeration failed")
+
+
+@app.route("/new")
+def new():
+    return render_template("new.html")
+
+
+@app.route("/send", methods=["POST"])
+def send():
+    content = request.form["content"]
+    if messages.send(content):
+        return redirect("/")
+    else:
+        return render_template("error.html", message="Failed to send message")

@@ -1,16 +1,17 @@
 Welcome!
+{% if session.user_id %}
+You are logged in.
+<a href="/new">Send message</a> | <a href="/logout">Log out</a>
+<hr>
 <p>
   {% for message in messages %}
-  <i>Message:</i> {{ messages[0] }}
+  <i>Message:</i> {{ message[0] }}
 <p>
   <i>Sender:</i> {{ message[1] }}
 <p>
   <i>Time:</i> {{ message[2].strftime("%Y-%m-%d %H:%M:%S") }}
   <hr>
   {% endfor %}
-  {% if session.user_id %}
-  You are logged in.
-  <a href="/new">Send message</a> | <a href="/logout">Log out</a>
   {% else %}
   <a href="/login">Log in</a>
   {% endif %}
