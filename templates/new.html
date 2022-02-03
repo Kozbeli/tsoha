@@ -1,6 +1,23 @@
-<form action="/send" method="post">
-  Message: <br>
-  <textarea name="content" rows="3" cols="40"></textarea>
+{% extends "base.html" %}
+{% block content %}
+<form action="/send" method="POST" onsubmit="return check(this)">
+  Title: <input type="text" name="title"> <br>
+  Message: <textarea name="content" rows="3" cols="40"></textarea>
   <br>
   <input type="submit" value="Send">
 </form>
+
+<script>
+  function check(form) {
+    if (form.title.value.length > 100) {
+      alert("Otsikko on liian pitkä");
+      return False;
+    }
+    if (form.message.value.length > 5000) {
+      alert("Viesti on liian pitkä");
+      return false;
+    }
+    return true;
+  }
+</script>
+{% endblock %}

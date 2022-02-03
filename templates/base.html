@@ -1,0 +1,15 @@
+<!doctype html>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+
+<title>{% block title %} - Flaskr{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<section class="content">
+    <header>
+      {% include "header.html" %}
+    </header>
+        <div class="'content">{% block content %}{% endblock %}</div>
+    <footer>
+        {% include "footer.html" %}
+    </footer>
+</section>

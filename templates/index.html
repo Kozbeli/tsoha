@@ -1,8 +1,19 @@
-Welcome!
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+
+
+
+{% extends "base.html" %}
+{% block content %}
 {% if session.user_id %}
-You are logged in.
-<a href="/new">Send message</a> | <a href="/logout">Log out</a>
-<hr>
+
+    <div class="container">
+        Welcome! You are logged in.
+        <a href="/new">Send message</a> | <a href="/logout">Log out</a>
+    </div>
+
+
+
 <p>
   {% for message in messages %}
   <i>Message:</i> {{ message[0] }}
@@ -17,3 +28,4 @@ You are logged in.
   {% endif %}
   <hr>
   This site has been viewed {{ counter }} times
+{% endblock %}
