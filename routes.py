@@ -59,8 +59,31 @@ def new():
 
 @app.route("/send", methods=["POST"])
 def send():
+    title = request.form["title"]
     content = request.form["content"]
-    if messages.send(content):
+    if len(title) > 100:
+        return render_template("error.html", message="Title is too long")
+    if len(content) > 5000:
+        return render_template("error.html", message="Message is too long")
+    if messages.send(title, content):
         return redirect("/")
     else:
         return render_template("error.html", message="Failed to send message")
+
+
+@app.route("/profile/<int:id>")
+def profile(id):
+    allow = False
+    user = users.get_user(id)
+    if users.is_admin():
+        allow = True
+        return render_template("profile.html", user=user)
+    elif is_user() and user_id == id:
+        allow = True
+    elif is_user():
+        sql = "SELECT 1 FROM friends WHERE user1=:user1 AND user2=:user2"
+        result = db.session.execute(sql, {"user1":user_id(), "user2":id})
+        if result.fetchone():
+            allow = True
+        if not allow:
+            return render_template("error.html", error="Unauthorized access")

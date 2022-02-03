@@ -37,3 +37,18 @@ def register(username, password):
         print("ERROR: users.register() failed")
         return False
     return login(username, password)
+
+def is_admin():
+    id = user_id()
+    sql = "SELECT admin FROM users WHERE id=:user_id"
+    result = db.session.execute(sql, {"user_id": id})
+    returnable = result.fetchone()
+    print(f"admin: {returnable}")
+    return returnable
+
+def get_user(id):
+    sql = "SELECT user FROM users WHERE id=:user_id"
+    result = db.session.execute(sql, {"user_id": id})
+    user = result.fetchone()
+    print(f"user: {user}")
+    return user
