@@ -1,17 +1,32 @@
 from app import app
-from flask import render_template, request, redirect
+from flask import render_template, request, redirect, session
 import messages
 import users
 import visits
+import trips
+import vehicles
 
 
 @app.route("/")
 def index():
     visits.add_visit()
     counter = visits.get_counter()
+    trip_list = trips.get_list()
+    vehicle_list = vehicles.get_list(session.get("user_id"))
+    return render_template(
+        "index.html",
+        counter=counter,
+        count=len(trip_list),
+        trips=trip_list,
+        vehicles=vehicle_list)
+
+
+@app.route("/chat")
+def chat():
+    visits.add_visit()
+    counter = visits.get_counter()
     messageList = messages.get_list()
-    print("counter is now", counter)
-    return render_template("index.html", counter=counter, count=len(messageList), messages=messageList)
+    return render_template("chat.html", counter=counter, count=len(messageList), messages=messageList)
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -66,7 +81,7 @@ def send():
     if len(content) > 5000:
         return render_template("error.html", message="Message is too long")
     if messages.send(title, content):
-        return redirect("/")
+        return redirect("/chat")
     else:
         return render_template("error.html", message="Failed to send message")
 
@@ -82,7 +97,7 @@ def profile(id):
         allow = True
     elif is_user():
         sql = "SELECT 1 FROM friends WHERE user1=:user1 AND user2=:user2"
-        result = db.session.execute(sql, {"user1":user_id(), "user2":id})
+        result = db.session.execute(sql, {"user1": user_id(), "user2": id})
         if result.fetchone():
             allow = True
         if not allow:
