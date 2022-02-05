@@ -1,23 +1,38 @@
-{% extends "base.html" %}
-{% block content %}
-<form action="/send" method="POST" onsubmit="return check(this)">
-  Title: <input type="text" name="title"> <br>
-  Message: <textarea name="content" rows="3" cols="40"></textarea>
-  <br>
-  <input type="submit" value="Send">
-</form>
+<div class="container">
+    <form action="/send" method="POST" onsubmit="return check(this)">
+        <table class="container">
+            <tr>
+                <th>
+                    <lable>Title:</lable>
+                </th>
+                <th>
+                    <input name="title" type="text">
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    <lable>Message:</lable>
+                </th>
+                <th>
+                    <textarea name="content" rows="3" cols="40"></textarea>
+                </th>
+            </tr>
+        </table>
+        <input type="submit" value="Send">
+    </form>
+</div>
+
 
 <script>
-  function check(form) {
-    if (form.title.value.length > 100) {
-      alert("Otsikko on liian pitkä");
-      return False;
+    function check(form) {
+        if (form.title.value.length > 100) {
+            alert("Otsikko on liian pitkä");
+            return False;
+        }
+        if (form.message.value.length > 5000) {
+            alert("Viesti on liian pitkä");
+            return false;
+        }
+        return true;
     }
-    if (form.message.value.length > 5000) {
-      alert("Viesti on liian pitkä");
-      return false;
-    }
-    return true;
-  }
 </script>
-{% endblock %}

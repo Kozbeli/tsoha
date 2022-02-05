@@ -1,31 +1,87 @@
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-
 
 
 {% extends "base.html" %}
 {% block content %}
-{% if session.user_id %}
 
-    <div class="container">
-        Welcome! You are logged in.
-        <a href="/new">Send message</a> | <a href="/logout">Log out</a>
-    </div>
+    {% if session.user_id %}
 
 
+        <section class="outer-container">
+            <section class="container">
+                <h2>Trips</h2>
+                <p>Total: {{ count }} trips available.</p>
+                <div>
+                    {% for trip in trips %}
+                        <div class="container">
+                            <i>User:</i> {{ trip[0] }}
+                            <p>
+                                <b>{{ trip[1] }} - {{ trip[2] }}</b>
+                            <p>
+                                {{ trip[6] }} - {{ trip[7] }}
+                            <p>
+                                Seats left: {{ trip[8] }}
+                            <p>
+                                <i>Journey starts:</i> {{ trip[3].strftime("%Y-%m-%d %H:%M:%S") }}
+                        </div>
+                        <hr>
+                    {% endfor %}
+                </div>
+            </section>
+            <section class="container">
+                <div class="container">
+                    <h3>Add New Trip</h3>
+                    <form action="/newTrip" method="POST" onsubmit="return check(this)">
+                        <table>
+                            <tr>
+                                <th>
+                                    <label for="from">From: </label>
+                                </th>
+                                <th>
+                                    <input id="from" type="text" name="departure">
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <label for="to">To: </label>
+                                </th>
+                                <th>
+                                    <input id="to" type="text" name="destination">
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <label>Vehicle</label>
+                                </th>
+                                <th>
+                                    <select>
+                                        {% for vehicle in vehicles %}
+                                            <option>{{ vehicle.reg_nro }}</option>
+                                        {%  endfor %}
+                                    </select>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <label for="start">Start: </label>
+                                </th>
+                                <th>
+                                    <input id="start" type="datetime-local" name="depart_time">
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <input type="submit" value="add trip">
+                                </th>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </section>
+        </section>
 
-<p>
-  {% for message in messages %}
-  <i>Message:</i> {{ message[0] }}
-<p>
-  <i>Sender:</i> {{ message[1] }}
-<p>
-  <i>Time:</i> {{ message[2].strftime("%Y-%m-%d %H:%M:%S") }}
-  <hr>
-  {% endfor %}
-  {% else %}
-  <a href="/login">Log in</a>
-  {% endif %}
-  <hr>
-  This site has been viewed {{ counter }} times
+    {% else %}
+
+    {% endif %}
+
+
 {% endblock %}

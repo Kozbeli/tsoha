@@ -1,0 +1,38 @@
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+
+
+
+{% extends "base.html" %}
+{% block content %}
+{% if session.user_id %}
+
+    <div class="container">
+        Welcome! You are logged in.
+        <a href="/new">Send message</a> | <a href="/logout">Log out</a>
+    </div>
+
+
+
+<p>
+  {% for message in messages %}
+      <div class="container">
+        <i>Message:</i> {{ message[0] }}
+        <p>
+        <i>Sender:</i> {{ message[1] }}
+        <p>
+        <i>Time:</i> {{ message[2].strftime("%Y-%m-%d %H:%M:%S") }}
+      </div>
+    <hr>
+  {% endfor %}
+
+  {% else %}
+  <a href="/login">Log in</a>
+  {% endif %}
+
+    <div class="container">
+        This site has been viewed {{ counter }} times
+    </div>
+{% endblock %}

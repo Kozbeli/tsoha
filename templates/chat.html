@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+    <section class="container">
+        <h2>Chat</h2>
+        {% for message in messages %}
+            <div class="container">
+                <i>Message:</i> {{ message[0] }}
+                <p>
+                    <i>Sender:</i> {{ message[1] }}
+                <p>
+                    <i>Time:</i> {{ message[2].strftime("%Y-%m-%d %H:%M:%S") }}
+            </div>
+            <hr>
+        {% endfor %}
+    </section>
+
+    {% include "new.html" %}
+{% endblock %}

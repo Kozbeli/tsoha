@@ -1,20 +1,30 @@
 <div class="container">
-  <nav class="navbar navbar-expand-sm navbar-light">
-    <a class="navbar-brand" href="/">Trips</a>
-    <ul class="nav">
-  <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="/chat">Chat</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Link</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Link</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link disabled">Disabled</a>
-  </li>
-</ul>
-  </nav>
-  </div>
+    <nav class="navbar navbar-expand-sm navbar-light">
+        {% if session.user_id %}
+        <a class="navbar-brand" href="/">Trips</a>
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/chat">Chat</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/profile">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+            </ul>
+        {% else %}
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/login">Login</a>
+                </li>
+            </ul>
+            </nav>
+
+
+        {% endif %}
+</div>
 <hr>
