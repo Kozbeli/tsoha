@@ -30,40 +30,32 @@
             <section class="container">
                 <div class="container">
                     <h3>Add New Trip</h3>
-                    <form action="/newTrip" method="POST" onsubmit="return check(this)">
+                    <form action="/add_trip" method="POST" onsubmit="return">
                         <table>
                             <tr>
-                                <th>
-                                    <label for="from">From: </label>
-                                </th>
+                                <th><label for="from">From: </label></th>
                                 <th>
                                     <input id="from" type="text" name="departure">
                                 </th>
                             </tr>
                             <tr>
-                                <th>
-                                    <label for="to">To: </label>
-                                </th>
+                                <th><label for="to">To: </label></th>
                                 <th>
                                     <input id="to" type="text" name="destination">
                                 </th>
                             </tr>
                             <tr>
+                                <th><label>Vehicle</label></th>
                                 <th>
-                                    <label>Vehicle</label>
-                                </th>
-                                <th>
-                                    <select>
+                                    <select name="vehicle">
                                         {% for vehicle in vehicles %}
                                             <option>{{ vehicle.reg_nro }}</option>
-                                        {%  endfor %}
+                                        {% endfor %}
                                     </select>
                                 </th>
                             </tr>
                             <tr>
-                                <th>
-                                    <label for="start">Start: </label>
-                                </th>
+                                <th><label for="start">Start: </label></th>
                                 <th>
                                     <input id="start" type="datetime-local" name="depart_time">
                                 </th>

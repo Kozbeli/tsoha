@@ -8,13 +8,12 @@ VALUES ('hjkl',
         'pbkdf2:sha256:260000$PhvkK5Ec3d7CtEkR$e2f94bfe8c974af1b8169d1730782eafc0017e16dd41df48f665b39e8ce95db9',
         'hjkl@hjkl.com');
 
-INSERT INTO vehicles (reg_nro, manufacturer, model, capacity)
+INSERT INTO vehicles (reg_nro, user_id, manufacturer, model, capacity)
 VALUES ('asd-123',
+        1,
         'Toyota',
         'Corolla',
         5);
-
-INSERT INTO vehicle_owners (user_id, vehicle_id) VALUES (1,1);
 
 INSERT INTO trips (vehicle_id, user_id, departure, destination, depart_time)
 VALUES (1,

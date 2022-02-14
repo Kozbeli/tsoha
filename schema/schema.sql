@@ -12,15 +12,11 @@ CREATE TABLE IF NOT EXISTS users(
 
 CREATE TABLE IF NOT EXISTS vehicles(
     id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users ON DELETE CASCADE,
     reg_nro TEXT,
     manufacturer TEXT,
     model TEXT,
     capacity INTEGER
-);
-
-CREATE TABLE IF NOT EXISTS vehicle_owners(
-    user_id INTEGER REFERENCES users,
-    vehicle_id INTEGER REFERENCES vehicles
 );
 
 CREATE TABLE IF NOT EXISTS messages(
@@ -34,7 +30,7 @@ CREATE TABLE IF NOT EXISTS messages(
 CREATE TABLE IF NOT EXISTS trips(
     id SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES users,
-    vehicle_id INTEGER REFERENCES vehicles,
+    vehicle_id INTEGER REFERENCES vehicles ON DELETE CASCADE,
     departure TEXT,
     destination TEXT,
     depart_time TIMESTAMP,

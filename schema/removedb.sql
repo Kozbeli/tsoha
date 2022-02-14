@@ -1,4 +1,3 @@
-DROP TABLE vehicle_owners CASCADE;
 DROP TABLE trips CASCADE;
 DROP TABLE messages CASCADE;
 DROP TABLE visitors CASCADE;

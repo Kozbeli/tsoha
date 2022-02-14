@@ -9,6 +9,8 @@ import vehicles
 
 @app.route("/")
 def index():
+    if not users.logged_in():
+        return redirect("/login")
     visits.add_visit()
     counter = visits.get_counter()
     trip_list = trips.get_list()
@@ -23,6 +25,8 @@ def index():
 
 @app.route("/chat")
 def chat():
+    if not users.logged_in():
+        return redirect("/login")
     visits.add_visit()
     counter = visits.get_counter()
     messageList = messages.get_list()
@@ -56,9 +60,6 @@ def register():
         username = request.form["username"]
         password1 = request.form["password1"]
         password2 = request.form["password2"]
-        print(f"username: {username}")
-        print(f"password1: {password1}")
-        print(f"password2: {password2}")
         if password1 != password2:
             return render_template("error.html", message="Passwords are not equal")
         if users.register(username, password1):
@@ -69,7 +70,7 @@ def register():
 
 @app.route("/new")
 def new():
-    return render_template("new.html")
+    return render_template("new_message.html")
 
 
 @app.route("/send", methods=["POST"])
@@ -86,19 +87,48 @@ def send():
         return render_template("error.html", message="Failed to send message")
 
 
-@app.route("/profile/<int:id>")
+@app.route("/users")
+def profiles():
+    user_list = users.get_list()
+    return render_template("users.html", users=user_list)
+
+
+@app.route("/users/<int:id>", methods=["GET", "POST"])
 def profile(id):
-    allow = False
-    user = users.get_user(id)
-    if users.is_admin():
-        allow = True
-        return render_template("profile.html", user=user)
-    elif is_user() and user_id == id:
-        allow = True
-    elif is_user():
-        sql = "SELECT 1 FROM friends WHERE user1=:user1 AND user2=:user2"
-        result = db.session.execute(sql, {"user1": user_id(), "user2": id})
-        if result.fetchone():
-            allow = True
-        if not allow:
-            return render_template("error.html", error="Unauthorized access")
+    if request.method == "GET":
+        user_info = users.get_user(id)
+        vehicle_list = vehicles.get_list(id)
+        return render_template("user.html", user=user_info, vehicles=vehicle_list)
+
+
+@app.route("/users/<int:user_id>/add_vehicle", methods=["POST"])
+def add_vehicle(user_id):
+    if request.method == "POST":
+        reg_nro = request.form["reg_nro"]
+        manufacturer = request.form["manufacturer"]
+        model = request.form["model"]
+        capacity = request.form["capacity"]
+        if vehicles.add_vehicle(reg_nro, user_id, manufacturer, model, capacity):
+            return redirect(f"/users/{user_id}")
+        else:
+            return redirect("/error")
+
+
+@app.route("/users/<int:user_id>/del_vehicle/<int:vehicle_id>", methods=["GET"])
+def del_vehicle(user_id, vehicle_id):
+    if vehicles.remove_vehicle(user_id, vehicle_id):
+        return redirect(f"/users/{user_id}")
+    else:
+        return redirect("/error")
+
+
+@app.route("/add_trip", methods=["POST"])
+def add_trip():
+    departure = request.form["departure"]
+    destination = request.form["destination"]
+    vehicle = request.form["vehicle"]
+    time = request.form["depart_time"]
+    if trips.add_trip(departure, destination, vehicle, time):
+        return redirect("/")
+    else:
+        return redirect("/error")

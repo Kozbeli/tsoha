@@ -1,0 +1,17 @@
+<h2>Hello users</h2>
+
+{% for user in users %}
+<div>
+    <table>
+        <tr>
+            <th>
+                <a href="/users/{{ user.id }}">{{ user.username }}</a>
+            </th>
+            <th>
+                {{ user.email }}
+            </th>
+        </tr>
+    </table>
+
+</div>
+{%  endfor %}

@@ -17,6 +17,11 @@ def login(username, password):
         else:
             return False
 
+def get_list():
+    sql = "SELECT * FROM users;"
+    result = db.session.execute(sql)
+    return result.fetchall()
+
 
 def logout():
     del session["user_id"]
@@ -47,8 +52,11 @@ def is_admin():
     return returnable
 
 def get_user(id):
-    sql = "SELECT user FROM users WHERE id=:user_id"
+    sql = "SELECT * FROM users WHERE id=:user_id"
     result = db.session.execute(sql, {"user_id": id})
     user = result.fetchone()
     print(f"user: {user}")
     return user
+
+def logged_in():
+    return bool(session.get("user_id", 0))
