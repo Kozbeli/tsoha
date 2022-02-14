@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="container">
+        <h2>Hello user</h2>
+
+        <table class="container">
+            <tr>
+                <th>Username:</th>
+                <th>{{ user.username }}</th>
+            </tr>
+            <tr>
+                <th>email:</th>
+                <th>{{ user.email }}</th>
+            </tr>
+            <tr>
+                <th>vehicles:</th>
+                <th>
+                    {% for vehicle in vehicles %}
+                        <div>
+                            {{ vehicle.reg_nro }}
+                            <a href="/users/{{ user.id }}/del_vehicle/{{ vehicle.id }}">
+                                Remove
+                            </a>
+                        </div>
+                    {% endfor %}
+                </th>
+            </tr>
+        </table>
+    <hr>
+        <form action="/users/{{ user.id }}/add_vehicle" method="POST" onsubmit="return check(this)">
+            <h2>Add new vehicle</h2>
+            <table>
+                <tr>
+                    <th> Registration number:</th>
+                    <th><input name="reg_nro" type="text"></th>
+                </tr>
+                <tr>
+                    <th> Manufacturer:</th>
+                    <th><input name="manufacturer" type="text"></th>
+                </tr>
+                <tr>
+                    <th> Model:</th>
+                    <th><input name="model" type="text"></th>
+                </tr>
+                <tr>
+                    <th> Seats:</th>
+                    <th><input name="capacity" type="number"></th>
+                </tr>
+            </table>
+            <input type="submit" value="Add vehicle">
+        </form>
+    </div>
+
+{% endblock %}
