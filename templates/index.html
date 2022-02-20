@@ -13,15 +13,19 @@
                 <div>
                     {% for trip in trips %}
                         <div class="container">
-                            <i>User:</i> {{ trip[0] }}
+                            <i>User:</i> {{ trip[1] }}
                             <p>
-                                <b>{{ trip[1] }} - {{ trip[2] }}</b>
+                                <a href="/trips/{{ trip[0] }}">
+                                    <b>{{ trip[2] }} - {{ trip[3] }}</b>
+                                </a>
                             <p>
-                                {{ trip[6] }} - {{ trip[7] }}
+                                {{ trip[7] }} - {{ trip[8] }}
                             <p>
-                                Seats left: {{ trip[8] }}
+                                Seats left: {{ trip[9] }}
+                                <button>Dibs!</button>
                             <p>
-                                <i>Journey starts:</i> {{ trip[3].strftime("%Y-%m-%d %H:%M:%S") }}
+                                <i>Journey starts:</i> {{ trip[4].strftime("%Y-%m-%d %H:%M:%S") }}
+
                         </div>
                         <hr>
                     {% endfor %}

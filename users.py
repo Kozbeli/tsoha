@@ -55,7 +55,6 @@ def get_user(id):
     sql = "SELECT * FROM users WHERE id=:user_id"
     result = db.session.execute(sql, {"user_id": id})
     user = result.fetchone()
-    print(f"user: {user}")
     return user
 
 def logged_in():

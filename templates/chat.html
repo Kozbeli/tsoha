@@ -8,11 +8,48 @@
                 <p>
                     <i>Sender:</i> {{ message[1] }}
                 <p>
-                    <i>Time:</i> {{ message[2].strftime("%Y-%m-%d %H:%M:%S") }}
+                    {{ message[2].strftime("%Y-%m-%d %H:%M:%S") }}
             </div>
             <hr>
         {% endfor %}
     </section>
 
-    {% include "new_message.html" %}
+    <div class="container">
+        <form action="/send/0" method="POST" onsubmit="return check(this)">
+            <table class="container">
+                <tr>
+                    <th>
+                        <lable>Title:</lable>
+                    </th>
+                    <th>
+                        <input name="title" type="text">
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        <lable>Message:</lable>
+                    </th>
+                    <th>
+                        <textarea name="content" rows="3" cols="40"></textarea>
+                    </th>
+                </tr>
+            </table>
+            <input type="submit" value="Send">
+        </form>
+    </div>
+
+
+    <script>
+        function check(form) {
+            if (form.title.value.length > 100) {
+                alert("Otsikko on liian pitkä");
+                return false;
+            }
+            if (form.message.value.length > 5000) {
+                alert("Viesti on liian pitkä");
+                return false;
+            }
+            return true;
+        }
+    </script>
 {% endblock %}

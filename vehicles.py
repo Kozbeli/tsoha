@@ -11,7 +11,7 @@ def get_list(user_id):
     return vehicle_list
 
 def get_vehicle(reg_nro):
-    sql = "SELECT id FROM vehicles WHERE reg_nro=:reg_nro;"
+    sql = "SELECT * FROM vehicles WHERE reg_nro=:reg_nro;"
     result = db.session.execute(sql, {"reg_nro": reg_nro})
     vehicle_id = result.fetchone()
     return vehicle_id
@@ -32,3 +32,8 @@ def remove_vehicle(user_id, vehicle_id):
     db.session.execute(sql, {"vehicle_id": vehicle_id})
     db.session.commit()
     return True
+
+def get_by_id(id):
+    sql = "SELECT * FROM vehicles WHERE id=:vehicle_id;"
+    result = db.session.execute(sql, {"vehicle_id": id})
+    return result.fetchone()

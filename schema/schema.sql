@@ -19,20 +19,27 @@ CREATE TABLE IF NOT EXISTS vehicles(
     capacity INTEGER
 );
 
-CREATE TABLE IF NOT EXISTS messages(
-    id SERIAL PRIMARY KEY,
-    title TEXT,
-    content TEXT,
-    user_id INTEGER REFERENCES users,
-    sent_at TIMESTAMP
-);
-
 CREATE TABLE IF NOT EXISTS trips(
     id SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES users,
     vehicle_id INTEGER REFERENCES vehicles ON DELETE CASCADE,
     departure TEXT,
     destination TEXT,
+    seats_left INTEGER,
     depart_time TIMESTAMP,
     created_at TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS messages(
+    id SERIAL PRIMARY KEY,
+    title TEXT,
+    content TEXT,
+    user_id INTEGER REFERENCES users,
+    trip_id INTEGER REFERENCES trips,
+    sent_at TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS passangers(
+    trip_id INTEGER REFERENCES trips ON DELETE CASCADE,
+    user_id Integer REFERENCES users ON DELETE CASCADE
 );
