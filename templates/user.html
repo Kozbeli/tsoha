@@ -16,9 +16,11 @@
                     {% for vehicle in vehicles %}
                         <div>
                             {{ vehicle.reg_nro }}
-                            <a href="/users/{{ user.id }}/del_vehicle/{{ vehicle.id }}">
-                                Remove
-                            </a>
+                            {% if user.id == session.user_id %}
+                                <a href="/users/{{ user.id }}/del_vehicle/{{ vehicle.id }}">
+                                    Remove
+                                </a>
+                            {% endif %}
                         </div>
                     {% endfor %}
                 </th>
