@@ -20,16 +20,22 @@
             </tr>
             <tr>
                 <th>Seats:</th>
-                <th>{{ vehicle.capacity }}</th>
+                <th>{{ trip.seats_left }}</th>
             </tr>
             <tr>
                 <th>passangers:</th>
                 <th>
                     {% for passanger in passangers %}
                         <div>
-                            <a href="/users/{{ passanger.user_id }}">
+                            <a href="/users/{{ passanger.id }}">
                                 {{ passanger.username }}
                             </a>
+                            {% if trip.user_id == session.user_id or passanger.id == session.user_id %}
+                                <form action="/trips/{{ trip.id }}/remove_passanger/{{ passanger.id }}" method="POST">
+                                    <input type="submit" value="Remove">
+                                    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+                                </form>
+                            {% endif %}
                         </div>
                     {% endfor %}
                 </th>
@@ -39,7 +45,9 @@
         <h2>messages:</h2>
         {% for message in messages %}
             <div class="container">
-                <i>Message:</i> {{ message[0] }}
+                <b>{{ message[3] }}</b>
+                <p>
+                    {{ message[0] }}
                 <p>
                     <i>Sender:</i> {{ message[1] }}
                 <p>
@@ -51,42 +59,43 @@
 
 
     <div class="container">
-    <form action="/send/{{ trip.id }}" method="POST" onsubmit="return check(this)">
-        <table class="container">
-            <tr>
-                <th>
-                    <lable>Title:</lable>
-                </th>
-                <th>
-                    <input name="title" type="text">
-                </th>
-            </tr>
-            <tr>
-                <th>
-                    <lable>Message:</lable>
-                </th>
-                <th>
-                    <textarea name="content" rows="3" cols="40"></textarea>
-                </th>
-            </tr>
-        </table>
-        <input type="submit" value="Send">
-    </form>
-</div>
+        <form action="/send/{{ trip.id }}" method="POST" onsubmit="return check(this)">
+            <table class="container">
+                <tr>
+                    <th>
+                        <lable>Title:</lable>
+                    </th>
+                    <th>
+                        <input name="title" type="text">
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        <lable>Message:</lable>
+                    </th>
+                    <th>
+                        <textarea name="content" rows="3" cols="40"></textarea>
+                    </th>
+                </tr>
+            </table>
+            <input type="submit" value="Send">
+            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+        </form>
+    </div>
 
 
-<script>
-    function check(form) {
-        if (form.title.value.length > 100) {
-            alert("Otsikko on liian pitkä");
-            return false;
+    <script>
+        function check(form) {
+            if (form.title.value.length > 100) {
+                alert("Otsikko on liian pitkä");
+                return false;
+            }
+            if (form.message.value.length > 5000) {
+                alert("Viesti on liian pitkä");
+                return false;
+            }
+            return true;
         }
-        if (form.message.value.length > 5000) {
-            alert("Viesti on liian pitkä");
-            return false;
-        }
-        return true;
-    }
-</script>
+    </script>
 
 {% endblock %}

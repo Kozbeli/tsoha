@@ -1,17 +1,19 @@
-<h2>Hello users</h2>
+{% extends "base.html" %}
 
-{% for user in users %}
-<div>
-    <table>
-        <tr>
-            <th>
-                <a href="/users/{{ user.id }}">{{ user.username }}</a>
-            </th>
-            <th>
-                {{ user.email }}
-            </th>
-        </tr>
-    </table>
+{% block content %}
 
-</div>
-{%  endfor %}
+    <div class="container">
+        <h2>Users</h2>
+        {% for user in users %}
+            <table>
+                <tr>
+                    <th>
+                        <a href="/users/{{ user.id }}">{{ user.username }}</a>
+                    </th>
+                </tr>
+            </table>
+
+        {% endfor %}
+    </div>
+
+{% endblock %}

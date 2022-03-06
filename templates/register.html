@@ -1,9 +1,39 @@
-<form action="/register" method="post">
-Username: <input type="text" name="username">
-<p>
-Password: <input type="password" name="password1">
-<p>
-Repeat Password: <input type="password" name="password2">
-<p>
-<input type="submit" value="Create an account">
-</form>
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <form action="/register" method="post">
+        <table>
+            <tr>
+                <th>
+                    Username:
+                </th>
+                <th>
+                    <input type="text" name="username">
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    Password:
+                </th>
+                <th>
+                    <input type="password" name="password1">
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    Repeat Password:
+                </th>
+                <th>
+                    <input type="password" name="password2">
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    <input type="submit" value="Create an account">
+                </th>
+            </tr>
+        </table>
+    </form>
+</div>
+
+{% endblock %}

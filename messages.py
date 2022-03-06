@@ -19,7 +19,7 @@ def send(title, content, id):
     return True
 
 def get_messages(id):
-    sql = "SELECT M.content, U.username, M.sent_at FROM messages M, users U " \
+    sql = "SELECT M.content, U.username, M.sent_at, M.title FROM messages M, users U " \
         "WHERE M.user_id=U.id AND M.trip_id=:trip_id ORDER BY M.id"
     result = db.session.execute(sql, {"trip_id": id})
     return result.fetchall()

@@ -3,16 +3,12 @@
 {% block content %}
 
     <div class="container">
-        <h2>Hello user</h2>
+        <h2>User info</h2>
 
         <table class="container">
             <tr>
                 <th>Username:</th>
                 <th>{{ user.username }}</th>
-            </tr>
-            <tr>
-                <th>email:</th>
-                <th>{{ user.email }}</th>
             </tr>
             <tr>
                 <th>vehicles:</th>
@@ -28,7 +24,7 @@
                 </th>
             </tr>
         </table>
-    <hr>
+        <hr>
         <form action="/users/{{ user.id }}/add_vehicle" method="POST" onsubmit="return check(this)">
             <h2>Add new vehicle</h2>
             <table>
@@ -50,6 +46,7 @@
                 </tr>
             </table>
             <input type="submit" value="Add vehicle">
+            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
         </form>
     </div>
 

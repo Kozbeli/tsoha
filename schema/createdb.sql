@@ -22,37 +22,41 @@ VALUES ('xxx-123',
         'Punto',
         5);
 
-INSERT INTO trips (vehicle_id, user_id, departure, destination, seats_left, depart_time)
+INSERT INTO trips (vehicle_id, user_id, departure, destination, seats_left, depart_time, created_at)
 VALUES (1,
         1,
         'Helsinki',
         'Tampere',
         4,
-        '1111-11-11 07:00:00');
+        '1111-11-11 07:00:00',
+        NOW());
 
-INSERT INTO trips (vehicle_id, user_id, departure, destination, seats_left, depart_time)
+INSERT INTO trips (vehicle_id, user_id, departure, destination, seats_left, depart_time, created_at)
 VALUES (1,
         1,
         'Tampere',
         'Helsinki',
         4,
-        '1111-11-11 17:00:00');
+        '1111-11-11 17:00:00',
+        NOW());
 
-INSERT INTO trips (vehicle_id, user_id, departure, destination, seats_left, depart_time)
+INSERT INTO trips (vehicle_id, user_id, departure, destination, seats_left, depart_time, created_at)
 VALUES (2,
         2,
         'Kerava',
         'Riihimäki',
         4,
-        '2022-11-11 07:00:00');
+        '2022-11-11 07:00:00',
+        NOW());
 
-INSERT INTO trips (vehicle_id, user_id, departure, destination, seats_left, depart_time)
+INSERT INTO trips (vehicle_id, user_id, departure, destination, seats_left, depart_time, created_at)
 VALUES (2,
         2,
         'Riihimäki',
         'Kerava',
         4,
-        '2022-11-11 17:00:00');
+        '2022-11-11 17:00:00',
+        NOW());
 
 INSERT INTO trips (id, user_id, vehicle_id, departure, destination, seats_left, depart_time, created_at)
 VALUES (0,

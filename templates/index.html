@@ -22,7 +22,10 @@
                                 {{ trip[7] }} - {{ trip[8] }}
                             <p>
                                 Seats left: {{ trip[9] }}
-                                <button>Dibs!</button>
+                            <form action="/trips/{{ trip[0] }}/dibs" method="POST">
+                                <input type="submit" value="Dibs!">
+                                <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+                            </form>
                             <p>
                                 <i>Journey starts:</i> {{ trip[4].strftime("%Y-%m-%d %H:%M:%S") }}
 
@@ -67,6 +70,7 @@
                             <tr>
                                 <th>
                                     <input type="submit" value="add trip">
+                                    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
                                 </th>
                             </tr>
                         </table>

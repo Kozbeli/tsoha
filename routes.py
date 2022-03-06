@@ -31,7 +31,11 @@ def chat():
     visits.add_visit()
     counter = visits.get_counter()
     message_list = messages.get_messages(0)
-    return render_template("chat.html", counter=counter, count=len(message_list), messages=message_list)
+    return render_template(
+        "chat.html",
+        counter=counter,
+        count=len(message_list),
+        messages=message_list)
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -44,7 +48,9 @@ def login():
         if users.login(username, password):
             return redirect("/")
         else:
-            return render_template("error.html", message="Invalid username or password")
+            return render_template(
+                "error.html",
+                message="Invalid username or password")
 
 
 @app.route("/logout")
@@ -72,6 +78,8 @@ def register():
 @app.route("/send/<int:trip_id>", methods=["POST"])
 def send(trip_id):
     if not users.logged_in():
+        return redirect("/login")
+    if session["csrf_token"] != request.form["csrf_token"]:
         return redirect("/login")
     title = request.form["title"]
     content = request.form["content"]
@@ -111,6 +119,8 @@ def add_vehicle(user_id):
     if not users.logged_in():
         return redirect("/login")
     if request.method == "POST":
+        if session["csrf_token"] != request.form["csrf_token"]:
+            return redirect("/login")
         reg_nro = request.form["reg_nro"]
         manufacturer = request.form["manufacturer"]
         model = request.form["model"]
@@ -134,6 +144,8 @@ def del_vehicle(user_id, vehicle_id):
 @app.route("/add_trip", methods=["POST"])
 def add_trip():
     if not users.logged_in():
+        return redirect("/login")
+    if session["csrf_token"] != request.form["csrf_token"]:
         return redirect("/login")
     departure = request.form["departure"]
     destination = request.form["destination"]
@@ -160,4 +172,53 @@ def trip(id):
         trip=trip_info,
         vehicle=vehicle_info,
         messages=message_list,
-        passangers=passanger_list)
+        passangers=passanger_list
+    )
+
+
+@app.route("/trips/<int:id>/dibs", methods=["POST"])
+def trip_reservation(id):
+    if not users.logged_in():
+        return redirect("/login")
+    if session["csrf_token"] != request.form["csrf_token"]:
+        return redirect("/login")
+    if passangers.add_passanger(id):
+        trip_id = int(id)
+        trip_info = trips.get_trip(id)
+        vehicle_id = trip_info[2]
+        vehicle_info = vehicles.get_by_id(vehicle_id)
+        passanger_list = passangers.get_list(trip_id)
+        message_list = messages.get_messages(trip_id)
+        return render_template(
+            "trip.html",
+            trip=trip_info,
+            vehicle=vehicle_info,
+            messages=message_list,
+            passangers=passanger_list
+        )
+    else:
+        return render_template(
+            "error.html",
+            message="Trip reservation unsuccessful"
+        )
+
+
+@app.route("/trips/<int:trip_id>/remove_passanger/<int:user_id>", methods=["POST"])
+def remove_passanger(trip_id, user_id):
+    if not users.logged_in():
+        return redirect("/login")
+    if session["csrf_token"] != request.form["csrf_token"]:
+        return redirect("/login")
+    if passangers.remove_passanger(trip_id, user_id):
+        return redirect("/")
+    else:
+        return render_template(
+            "error.html",
+            mesage="Error"
+        )
+
+@app.route("/users", methods=["GET"])
+def user_list():
+    if not users.logged_in():
+        return redirect("/login")
+    return render_template("users.html")

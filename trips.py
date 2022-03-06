@@ -45,6 +45,37 @@ def add_trip(departure, destination, vehicle, depart_time):
 
 
 def get_trip(trip_id):
-    sql = "SELECT * FROM trips T WHERE T.id= :trip_id ;"
+    sql = "SELECT * FROM trips T WHERE T.id=:trip_id ;"
     result = db.session.execute(sql, {"trip_id": trip_id})
     return result.fetchone()
+
+
+def decrement_capacity_of(trip_id):
+    query = "SELECT seats_left FROM trips WHERE id=:trip_id;"
+    result = db.session.execute(query, {"trip_id": trip_id})
+    fetch_result = result.fetchone()
+    seats_left = tuple(fetch_result)
+    if seats_left[0] > 0:
+        updated_seats = seats_left[0] - 1
+        mutation = "UPDATE trips SET seats_left=:seats_left WHERE id=:trip_id;"
+        db.session.execute(mutation, {"seats_left": updated_seats, "trip_id": trip_id})
+        db.session.commit()
+        return True
+    return False
+
+
+def increment_capacity_of(trip_id):
+    query = "SELECT seats_left FROM trips WHERE id=:trip_id;"
+    result = db.session.execute(query, {"trip_id": trip_id})
+    fetch_result = result.fetchone()
+    seats_left = tuple(fetch_result)
+    updated_seats = seats_left[0] + 1
+    mutation = "UPDATE trips SET seats_left=:seats_left WHERE id=:trip_id;"
+    db.session.execute(mutation, {"seats_left": updated_seats, "trip_id": trip_id})
+    db.session.commit()
+    return True
+
+def remove_trip(trip_id):
+    sql = "DELETE FROM trips WHERE id=:trip_id;"
+    db.session.execute(sql, {"trip_id": trip_id})
+    db.session.commit()

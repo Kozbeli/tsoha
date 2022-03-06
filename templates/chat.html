@@ -4,7 +4,9 @@
         <h2>Chat</h2>
         {% for message in messages %}
             <div class="container">
-                <i>Message:</i> {{ message[0] }}
+                <b>{{ message[3] }}</b>
+                <p>
+                {{ message[0] }}
                 <p>
                     <i>Sender:</i> {{ message[1] }}
                 <p>
@@ -35,6 +37,7 @@
                 </tr>
             </table>
             <input type="submit" value="Send">
+            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
         </form>
     </div>
 
